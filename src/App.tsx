@@ -2,14 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Buyflow from './buyflow/Buyflow';
-
-export enum ProductIds {
-  devIns = 'dev_ins',
-}
-
-export const PRODUCT_IDS_TO_NAMES = {
-  [ProductIds.devIns]: 'Developer Insurance',
-}
+import { ProductIds } from './buyflow/types';
 
 const App = () => {
   return (

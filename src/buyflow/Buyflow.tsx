@@ -1,35 +1,35 @@
-import React, { useState } from 'react'
-import AgeStep from './AgeStep'
-import EmailStep from './EmailStep'
-import SummaryStep from './SummaryStep'
-import { ProductIds, PRODUCT_IDS_TO_NAMES } from '../App';
+import React, { useState } from 'react';
+import { flows } from './flows';
 
 interface BuyflowProps {
-  productId: ProductIds
+  productId: string;
 }
 
-const Buyflow: React.FC<BuyflowProps> = (props) => {
-  const [currentStep, setStep] = useState('email')
-  const [collectedData, updateData] = useState({
-    email: '',
-    age: 0,
-  })
-  const getStepCallback = (nextStep: string) => (field: string, value: any) => {
-    updateData({ ...collectedData, [field]: value })
-    setStep(nextStep)
-  }
+const Buyflow: React.FC<BuyflowProps> = ({ productId }) => {
+  const flow = flows[productId];
+  const [currentStep, setStep] = useState(0);
+  const [collectedData, updateData] = useState({});
+
+  const getStepCallback = (nextStep: number) => (field: string, value: any) => {
+    updateData({ ...collectedData, [field]: value });
+    if (nextStep < flow.steps.length) {
+      setStep(nextStep);
+    }
+  };
+
   return (
     <>
-      <h4>Buying {PRODUCT_IDS_TO_NAMES[props.productId]}</h4>
-      {(currentStep === 'email' && <EmailStep cb={getStepCallback('age')} />) ||
-        (currentStep === 'age' && (
-          <AgeStep cb={getStepCallback('summary')} />
-        )) ||
-        (currentStep === 'summary' && (
-          <SummaryStep collectedData={collectedData} />
-        ))}
+      <h4>Buying {flow.name}</h4>
+      {flow.steps.map((step, index) => currentStep === index && (
+          <step.component
+            key={step.key}
+            cb={getStepCallback(index + 1)}
+            collectedData={collectedData}
+          />
+        )
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Buyflow
+export default Buyflow;
