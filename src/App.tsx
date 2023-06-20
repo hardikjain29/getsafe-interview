@@ -15,9 +15,14 @@ const App = () => {
           <Route path="/buy/insurance_dev">
             <Buyflow productId={ProductIds.devIns} />
           </Route>
+          <Route path="/buy/insurance_designer">
+            <Buyflow productId={ProductIds.designerIns} />
+          </Route>
           <Route path="/">
-            <p>Welcome to Getsafe's Developer Insurance</p>
-            <Link to="/buy/insurance_dev">Get started!</Link>
+            <p>Welcome to Getsafe</p>
+            <Link to="/buy/insurance_dev">Get started with Developer Insurance!</Link>
+            <br />
+            <Link to="/buy/insurance_designer">Get started with Designer Insurance!</Link>
           </Route>
         </Switch>
       </div>

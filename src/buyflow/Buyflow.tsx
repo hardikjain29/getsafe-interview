@@ -25,6 +25,7 @@ const Buyflow: React.FC<BuyflowProps> = ({ productId }) => {
             key={step.key}
             cb={getStepCallback(index + 1)}
             collectedData={collectedData}
+            productId={productId} // For final redirection to purchase with the correct Id
           />
         )
       )}
