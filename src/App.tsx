@@ -1,8 +1,15 @@
-import React from 'react'
-import logo from './logo.svg'
-import './App.css'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import Buyflow, { ProductIds } from './buyflow/Buyflow'
+import logo from './logo.svg';
+import './App.css';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Buyflow from './buyflow/Buyflow';
+
+export enum ProductIds {
+  devIns = 'dev_ins',
+}
+
+export const PRODUCT_IDS_TO_NAMES = {
+  [ProductIds.devIns]: 'Developer Insurance',
+}
 
 const App = () => {
   return (
@@ -25,4 +32,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
