@@ -1,24 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
+import useInput from '../../hooks/useInput'
 
 interface EmailStepProps {
-  cb: (field: string, value: string) => void
+  handleStepChange: (field: string, value: string) => void
 }
 
-const EmailStep: React.FC<EmailStepProps> = (props) => {
-  const [email, setEmail] = useState('')
+const EmailStep: React.FC<EmailStepProps> = ({ handleStepChange }) => {
+  const { getInput, inputData } = useInput();
+  const handleNext = () => {
+    handleStepChange('email', inputData);
+  }
+
   return (
     <>
       <div>
-        Email:{' '}
-        <input
-          type="email"
-          onChange={({ target: { value } }) => {
-            setEmail(value)
-          }}
-          value={email}
-        ></input>
+        Email: {getInput('email')}
       </div>
-      <button onClick={() => props.cb('email', email)}>Next</button>
+      <button onClick={handleNext}>Next</button>
     </>
   )
 }

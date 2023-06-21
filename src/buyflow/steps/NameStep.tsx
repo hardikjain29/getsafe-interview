@@ -1,42 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import useInput from '../../hooks/useInput'
 
 interface NameStepProps {
-  cb: (field: string, value: string) => void;
+  handleStepChange: (field: string, value: string) => void
 }
 
-const NameStep: React.FC<NameStepProps> = ({ cb }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+const NameStep: React.FC<NameStepProps> = ({ handleStepChange }) => {
+  const { getInput: firstNameInput, inputData: firstName } = useInput();
+  const { getInput: lastNameInput, inputData: lastName } = useInput();
+  const [error, setError] = useState(false);
+
+  const handleNext = () => {
+    if (!firstName || !lastName) {
+      setError(true);
+    } else {
+      setError(false);
+      handleStepChange('name', `${firstName} ${lastName}`);
+    }
+  }
 
   return (
     <>
       <div>
-        First Name:{' '}
-        <input
-          type="text"
-          onChange={({ target: { value } }) => {
-            setFirstName(value);
-          }}
-          required
-          value={firstName}
-        />
+        First Name: {firstNameInput()}
       </div>
       <div>
-        Last Name:{' '}
-        <input
-          type="text"
-          onChange={({ target: { value } }) => {
-            setLastName(value);
-          }}
-          required
-          value={lastName}
-        />
+        Last Name: {lastNameInput()}
       </div>
-      <button onClick={() => cb('name', `${firstName} ${lastName}`)}>
-        Next
-      </button>
+      {
+        error ? <div>
+          Please enter all details before proceeding.
+        </div> : null
+      }
+      <button onClick={handleNext}>Next</button>
     </>
-  );
-};
+  )
+}
 
 export default NameStep;

@@ -1,24 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
+import useInput from '../../hooks/useInput'
 
 interface AgeStepProps {
-  cb: (field: string, value: number) => void
+  handleStepChange: (field: string, value: string) => void
 }
 
-const AgeStep: React.FC<AgeStepProps> = (props) => {
-  const [age, setAge] = useState(0)
+const AgeStep: React.FC<AgeStepProps> = ({ handleStepChange }) => {
+  const { getInput, inputData } = useInput();
+  const handleNext = () => {
+    handleStepChange('age', inputData);
+  }
+  
   return (
     <>
       <div>
-        Age:{' '}
-        <input
-          type="number"
-          onChange={({ target: { value } }) => {
-            setAge(Number(value))
-          }}
-          value={age}
-        ></input>
+        Age: {getInput('number')}
       </div>
-      <button onClick={() => props.cb('age', age)}>Next</button>
+      <button onClick={handleNext}>Next</button>
     </>
   )
 }
