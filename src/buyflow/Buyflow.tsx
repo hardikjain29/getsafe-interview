@@ -1,42 +1,36 @@
-import React, { useState } from 'react'
-import AgeStep from './AgeStep'
-import EmailStep from './EmailStep'
-import SummaryStep from './SummaryStep'
+import React, { useState } from 'react';
+import { flows } from './flows';
 
 interface BuyflowProps {
-  productId: ProductIds
+  productId: string;
 }
 
-export enum ProductIds {
-  devIns = 'dev_ins',
-}
+const Buyflow: React.FC<BuyflowProps> = ({ productId }) => {
+  const flow = flows[productId];
+  const [currentStep, setStep] = useState(0);
+  const [collectedData, updateData] = useState({});
 
-const PRODUCT_IDS_TO_NAMES = {
-  [ProductIds.devIns]: 'Developer Insurance',
-}
+  const handleStepChange = (nextStep: number) => (key: string, value: any) => {
+    updateData({ ...collectedData, [key]: value });
+    if (nextStep < flow.steps.length) {
+      setStep(nextStep);
+    }
+  };
 
-const Buyflow: React.FC<BuyflowProps> = (props) => {
-  const [currentStep, setStep] = useState('email')
-  const [collectedData, updateData] = useState({
-    email: '',
-    age: 0,
-  })
-  const getStepCallback = (nextStep: string) => (field: string, value: any) => {
-    updateData({ ...collectedData, [field]: value })
-    setStep(nextStep)
-  }
   return (
     <>
-      <h4>Buying {PRODUCT_IDS_TO_NAMES[props.productId]}</h4>
-      {(currentStep === 'email' && <EmailStep cb={getStepCallback('age')} />) ||
-        (currentStep === 'age' && (
-          <AgeStep cb={getStepCallback('summary')} />
-        )) ||
-        (currentStep === 'summary' && (
-          <SummaryStep collectedData={collectedData} />
-        ))}
+      <h4>Buying {flow.name}</h4>
+      {flow.steps.map((step, index) => currentStep === index && (
+          <step.component
+            key={step.key}
+            handleStepChange={handleStepChange(index + 1)}
+            collectedData={collectedData}
+            productId={productId} // For final redirection to purchase with the correct Id
+          />
+        )
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Buyflow
+export default Buyflow;

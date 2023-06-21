@@ -1,8 +1,8 @@
-import React from 'react'
-import logo from './logo.svg'
-import './App.css'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import Buyflow, { ProductIds } from './buyflow/Buyflow'
+import logo from './logo.svg';
+import './App.css';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Buyflow from './buyflow/Buyflow';
+import { ProductIds } from './buyflow/types';
 
 const App = () => {
   return (
@@ -15,9 +15,14 @@ const App = () => {
           <Route path="/buy/insurance_dev">
             <Buyflow productId={ProductIds.devIns} />
           </Route>
+          <Route path="/buy/insurance_designer">
+            <Buyflow productId={ProductIds.designerIns} />
+          </Route>
           <Route path="/">
-            <p>Welcome to Getsafe's Developer Insurance</p>
-            <Link to="/buy/insurance_dev">Get started!</Link>
+            <p>Welcome to Getsafe</p>
+            <Link to="/buy/insurance_dev">Get started with Developer Insurance!</Link>
+            <br />
+            <Link to="/buy/insurance_designer">Get started with Designer Insurance!</Link>
           </Route>
         </Switch>
       </div>
@@ -25,4 +30,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
