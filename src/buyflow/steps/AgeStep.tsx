@@ -6,9 +6,11 @@ interface AgeStepProps {
 }
 
 const AgeStep: React.FC<AgeStepProps> = ({ handleStepChange }) => {
-  const { getInput, inputData } = useInput();
+  const { getInput, inputData, validateInput } = useInput();
   const handleNext = () => {
-    handleStepChange('age', inputData);
+    if(validateInput()) {
+      handleStepChange('age', inputData);
+    }
   }
   
   return (

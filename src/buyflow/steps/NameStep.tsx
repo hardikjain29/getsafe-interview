@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import useInput from '../../hooks/useInput'
 
 interface NameStepProps {
@@ -6,15 +6,11 @@ interface NameStepProps {
 }
 
 const NameStep: React.FC<NameStepProps> = ({ handleStepChange }) => {
-  const { getInput: firstNameInput, inputData: firstName } = useInput();
-  const { getInput: lastNameInput, inputData: lastName } = useInput();
-  const [error, setError] = useState(false);
+  const { getInput: firstNameInput, inputData: firstName, validateInput: firstNameValidation } = useInput();
+  const { getInput: lastNameInput, inputData: lastName, validateInput: lastNameValidation } = useInput();
 
   const handleNext = () => {
-    if (!firstName || !lastName) {
-      setError(true);
-    } else {
-      setError(false);
+    if (firstNameValidation() && lastNameValidation()) {
       handleStepChange('name', `${firstName} ${lastName}`);
     }
   }
@@ -27,11 +23,6 @@ const NameStep: React.FC<NameStepProps> = ({ handleStepChange }) => {
       <div>
         Last Name: {lastNameInput()}
       </div>
-      {
-        error ? <div>
-          Please enter all details before proceeding.
-        </div> : null
-      }
       <button onClick={handleNext}>Next</button>
     </>
   )

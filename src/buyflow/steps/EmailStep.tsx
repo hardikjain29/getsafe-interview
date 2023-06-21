@@ -6,9 +6,11 @@ interface EmailStepProps {
 }
 
 const EmailStep: React.FC<EmailStepProps> = ({ handleStepChange }) => {
-  const { getInput, inputData } = useInput();
+  const { getInput, inputData, validateInput } = useInput();
   const handleNext = () => {
-    handleStepChange('email', inputData);
+    if (validateInput()) {
+      handleStepChange('email', inputData);
+    }
   }
 
   return (
